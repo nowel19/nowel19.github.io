@@ -1,1 +1,191 @@
 # nowel19.github.io
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monochromatic Calculator</title>
+  <style>
+    :root {
+      --primary-100: #e6ecf5;
+      --primary-200: #c2d1e6;
+      --primary-300: #9fb6d6;
+      --primary-400: #5f87b8;
+      --primary-500: #2f5d9f;
+      --primary-600: #1f3f6b;
+    }* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--primary-200);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.calculator {
+  background: var(--primary-100);
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  width: 340px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: var(--primary-600);
+  letter-spacing: 1px;
+}
+
+.display {
+  width: 100%;
+  height: 60px;
+  font-size: 24px;
+  text-align: right;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  margin-bottom: 15px;
+  background: var(--primary-300);
+  color: var(--primary-600);
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+button {
+  padding: 15px;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: var(--primary-200);
+  color: var(--primary-600);
+  transition: 0.2s ease;
+}
+
+button:hover {
+  background: var(--primary-300);
+}
+
+.operator {
+  background: var(--primary-400);
+  color: white;
+}
+
+.operator:hover {
+  background: var(--primary-500);
+}
+
+.equal {
+  grid-column: span 2;
+  background: var(--primary-500);
+  color: white;
+}
+
+.equal:hover {
+  background: var(--primary-600);
+}
+
+.clear {
+  background: var(--primary-400);
+  color: white;
+}
+
+.clear:hover {
+  background: var(--primary-500);
+}
+
+.share-btn {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: var(--primary-500);
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.share-btn:hover {
+  background: var(--primary-600);
+}
+
+  </style>
+</head>
+<body>  <div class="calculator">
+    <div class="title">CALCULATOR</div>
+    <input type="text" id="display" class="display" readonly><div class="buttons">
+  <button onclick="appendValue('7')">7</button>
+  <button onclick="appendValue('8')">8</button>
+  <button onclick="appendValue('9')">9</button>
+  <button class="operator" onclick="appendValue('/')">÷</button>
+
+  <button onclick="appendValue('4')">4</button>
+  <button onclick="appendValue('5')">5</button>
+  <button onclick="appendValue('6')">6</button>
+  <button class="operator" onclick="appendValue('*')">×</button>
+
+  <button onclick="appendValue('1')">1</button>
+  <button onclick="appendValue('2')">2</button>
+  <button onclick="appendValue('3')">3</button>
+  <button class="operator" onclick="appendValue('-')">−</button>
+
+  <button onclick="appendValue('0')">0</button>
+  <button onclick="appendValue('.')">.</button>
+  <button class="clear" onclick="clearDisplay()">C</button>
+  <button class="operator" onclick="appendValue('+')">+</button>
+
+  <button class="equal" onclick="calculate()">=</button>
+</div>
+
+<button class="share-btn" onclick="shareLink()">Copy Shareable Link</button>
+
+  </div>  <script>
+    const display = document.getElementById('display');
+
+    function appendValue(value) {
+      display.value += value;
+    }
+
+    function clearDisplay() {
+      display.value = '';
+    }
+
+    function calculate() {
+      try {
+        // Safer evaluation
+        const result = Function('return ' + display.value)();
+        display.value = result;
+      } catch (error) {
+        alert('Invalid expression');
+        clearDisplay();
+      }
+    }
+
+    function shareLink() {
+      const url = window.location.href;
+
+      if (navigator.share) {
+        navigator.share({
+          title: 'My Calculator',
+          url: url
+        });
+      } else {
+        navigator.clipboard.writeText(url)
+          .then(() => alert('Link copied to clipboard!'))
+          .catch(() => alert('Unable to copy link.'));
+      }
+    }
+  </script></body>
+</html>
